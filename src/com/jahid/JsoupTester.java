@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class JsoupTesster {
+public class JsoupTester {
     public static void main(String[] args){
 
         String html = "<div><p>Sample Content<p><div>";

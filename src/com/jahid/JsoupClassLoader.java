@@ -11,7 +11,7 @@ import java.net.URL;
 public class JsoupClassLoader {
     public static  void main(String[] args) throws IOException, URISyntaxException{
 
-        URL path = ClassLoader.getSystemResource("test.htm");
+        URL path = ClassLoader.getSystemResource("test.html");
         File input = new File(path.toURI());
         Document document = Jsoup.parse(input, "UTF-8");
         System.out.println(document.title());

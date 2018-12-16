@@ -36,6 +36,5 @@ public class GoogleScraper {
 
         }
         out.close();
-
     }
 }

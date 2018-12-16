@@ -1,4 +1,5 @@
 # JSOUP
+Jsoup is a java html parser. It is a java library that is used to parse HTML document. Jsoup provides api to extract and manipulate data from URL or HTML file. It uses DOM, CSS and Jquery-like methods for extracting and manipulating file.</br></br>
 Document document = Jsoup.parse(html);</br>
 Element sampleDiv = document.getElementById("sampleDiv");</br>
 Elements links = sampleDiv.getElementsByTag("a")</br>

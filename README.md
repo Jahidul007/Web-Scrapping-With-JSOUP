@@ -14,4 +14,14 @@ Where</br>
 **links** − Elements object represents the multiple node elements identified by tag "a".</br>
 **link.attr** − provides the value of href present in anchor tag. It may be relative or absolute.</br>
 **link.attr** − provides the absolute url after resolving against the document's base URI.</br>
-**link.absUrl** − provides the absolute url after resolving against the document's base URI.</br>
+**link.absUrl** − provides the absolute url after resolving against the document's base URI.</br></br>
+
+# Unirest(Ajax/dynamic)
+1. Use a headless browser</br>
+ - e.g. HtmlUnit For java</br>
+ - musch slower</br>
+ - easier to detect</br>
+2. Reverse engineering and calling the undocumented API directly</br>
+ - use the browser's developer tools</br>
+ - very fast</br>
+ - mostly returns already structured data(XML or JSON)</br>

@@ -1,0 +1,19 @@
+[ {
+  "title" : "iPhone",
+  "url" : "https://www.apple.com/iphone/"
+}, {
+  "title" : "iTunes Store",
+  "url" : "https://www.apple.com/itunes/"
+}, {
+  "title" : "Mac",
+  "url" : "https://www.apple.com/mac/"
+}, {
+  "title" : "iPad",
+  "url" : "https://www.apple.com/ipad/"
+}, {
+  "title" : "Apple Support",
+  "url" : "https://support.apple.com/"
+}, {
+  "title" : "Apple Watch",
+  "url" : "https://www.apple.com/watch/"
+} ]

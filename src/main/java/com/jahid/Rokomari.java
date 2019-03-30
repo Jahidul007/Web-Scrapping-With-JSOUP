@@ -20,8 +20,8 @@ public class Rokomari {
     public static void main(String[] args) throws Exception {
 
         final List<Book> resultList = new ArrayList<Book>();
-        String boibazar_rating = null;
-        String boibazar_rating_number = null;
+        String boibazar_rating = "";
+        String boibazar_rating_number = "";
 
         String rokomari_price = "";
         String rokomari_url = "";
@@ -48,12 +48,12 @@ public class Rokomari {
                     boibazar_rating_number = element.getElementsByTag("span").get(3).text();
 
                     if (boibazar_rating.contains("Ratings")) {
-                        System.out.println("Rating: " + boibazar_rating);
-                        System.out.println("number_of_Rating : " + boibazar_rating_number);
+                        System.out.println("boibazar Rating: " + boibazar_rating);
+                        System.out.println("boibazar number_of_Rating : " + boibazar_rating_number);
                     } else {
-                        System.out.println("Rating: " + "");
+                        boibazar_rating = "";
 
-                        System.out.println("number_of_Rating : " + "");
+                        boibazar_rating_number = "";
                     }
 
                 }
@@ -68,24 +68,24 @@ public class Rokomari {
                         String price1 = rowElement.select("p.book-price").get(0).text();
                         String[] words = price1.split("\\s");
 
-                         rokomari_price = words[0] + words[1];
+                        rokomari_price = words[0] + words[1];
 
                         Document newDocument1 = Jsoup.connect(rokomari_url).get();
                         //System.out.println("newDocument: " + newDocument);
                         for (Element element : newDocument1.select("div.details-book-main-info-wrapper")) {
 
                             // final String newprice = element.getElementsByTag("p").get(1).text();
-                             rokomari_rating = element.getElementsByTag("span").get(2).text();
+                            rokomari_rating = element.getElementsByTag("span").get(2).text();
 
-                             rokomari_noOfrated = element.getElementsByTag("a").get(2).text();
+                            rokomari_noOfrated = element.getElementsByTag("a").get(2).text();
 
                             if (rokomari_rating.contains("Ratings") && rokomari_noOfrated.contains("Reviews")) {
                                 System.out.println("Rating: " + rokomari_rating);
                                 System.out.println("number_of_Rating : " + rokomari_noOfrated);
                             } else {
-                                System.out.println("Rating: " + "");
+                                rokomari_rating = "";
 
-                                System.out.println("number_of_Rating : " + "");
+                                rokomari_noOfrated = "";
                             }
                             //System.out.println("new Price: " + newprice);
                             System.out.println("rokomari  rating: " + rokomari_rating);

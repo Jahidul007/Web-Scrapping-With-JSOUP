@@ -14,9 +14,9 @@ public class Book {
     private final String rokomari_price;
     private final String rokomari_rating;
     private final String rokomari_url;
-    private final String rokomari_noOfrated;
+    private final String rokomari_noOfrated ;
 
-    public Book(String title, String author, String price, String image, String url, String boibazar_rating, String boibazar_noOfRated, String noOfRated, String rokomari_price, String rokomari_rating, String rokomari_url) {
+    public Book(String title, String author, String price, String image, String url, String boibazar_rating, String boibazar_noOfRated, String rokomari_price, String rokomari_rating, String rokomari_url, String rokomari_noOfrated) {
         this.title = title;
         this.author = author;
         this.boibazar_price = price;

@@ -20,6 +20,13 @@ public class Rokomari {
     public static void main(String[] args) throws Exception {
 
         final List<Book> resultList = new ArrayList<Book>();
+        String boibazar_rating = null;
+        String boibazar_rating_number = null;
+
+        String rokomari_price = "";
+        String rokomari_url = "";
+        String rokomari_rating = "";
+        String rokomari_noOfrated = "";
         try {
             Document document = Jsoup.connect("https://www.boibazar.com/category-books/boimela-2019").get();
 
@@ -32,23 +39,64 @@ public class Rokomari {
                 final String image = row.getElementsByTag("img").attr("lsrc");
                 final String url = row.getElementsByTag("a").attr("href");
 
+
                 Document newDocument = Jsoup.connect(url).get();
                 for (Element element : newDocument.select("div.book-details-section")) {
 
-                    final String rating = element.getElementsByTag("span").get(2).text();
+                    boibazar_rating = element.getElementsByTag("span").get(2).text();
 
-                    final String rating_number = element.getElementsByTag("span").get(3).text();
+                    boibazar_rating_number = element.getElementsByTag("span").get(3).text();
 
-                    if (rating.contains("Ratings")) {
-                        System.out.println("Rating: " + rating);
-                        System.out.println("number_of_Rating : " + rating_number);
-                    }
-                    else {
+                    if (boibazar_rating.contains("Ratings")) {
+                        System.out.println("Rating: " + boibazar_rating);
+                        System.out.println("number_of_Rating : " + boibazar_rating_number);
+                    } else {
                         System.out.println("Rating: " + "");
 
                         System.out.println("number_of_Rating : " + "");
                     }
 
+                }
+
+                try {
+                    Document document1 = Jsoup.connect("https://www.rokomari.com/search?term=" + title).get();
+                    for (Element rowElement : document1.select("div.book-list-wrapper")) {
+
+                        //System.out.println("row : " + document);
+
+                        rokomari_url = "https://www.rokomari.com" + rowElement.getElementsByTag("a").attr("href");
+                        String price1 = rowElement.select("p.book-price").get(0).text();
+                        String[] words = price1.split("\\s");
+
+                         rokomari_price = words[0] + words[1];
+
+                        Document newDocument1 = Jsoup.connect(rokomari_url).get();
+                        //System.out.println("newDocument: " + newDocument);
+                        for (Element element : newDocument1.select("div.details-book-main-info-wrapper")) {
+
+                            // final String newprice = element.getElementsByTag("p").get(1).text();
+                             rokomari_rating = element.getElementsByTag("span").get(2).text();
+
+                             rokomari_noOfrated = element.getElementsByTag("a").get(2).text();
+
+                            if (rokomari_rating.contains("Ratings") && rokomari_noOfrated.contains("Reviews")) {
+                                System.out.println("Rating: " + rokomari_rating);
+                                System.out.println("number_of_Rating : " + rokomari_noOfrated);
+                            } else {
+                                System.out.println("Rating: " + "");
+
+                                System.out.println("number_of_Rating : " + "");
+                            }
+                            //System.out.println("new Price: " + newprice);
+                            System.out.println("rokomari  rating: " + rokomari_rating);
+                            System.out.println("rokomari Rating number: " + rokomari_noOfrated);
+
+                        }
+                        System.out.println("Title: " + rokomari_url);
+                        System.out.println("price: " + rokomari_price);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
 
@@ -57,9 +105,16 @@ public class Rokomari {
                 System.out.println(price);
                 System.out.println(image);
                 System.out.println(url);
+                System.out.println(boibazar_rating);
+                System.out.println(boibazar_rating_number);
+                System.out.println(rokomari_url);
+                System.out.println(rokomari_price);
+                System.out.println(rokomari_rating);
+                System.out.println(rokomari_noOfrated);
 
 
-                resultList.add(new Book(title, author, price, image, url));
+                resultList.add(new Book(title, author, price, image, url, boibazar_rating,
+                        boibazar_rating_number, rokomari_price, rokomari_rating, rokomari_url, rokomari_noOfrated));
 
             }
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("boibazar.json"), resultList);
@@ -67,47 +122,6 @@ public class Rokomari {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        try {
-            Document document = Jsoup.connect("https://www.rokomari.com/search?term="+title).get();
-            for(Element row : document.select("div.book-list-wrapper")){
-
-                //System.out.println("row : " + document);
-
-                String url_rokomari ="https://www.rokomari.com"+ row.getElementsByTag("a").attr("href");
-                String price = row.select("p.book-price").get(0).text();
-                String[] words=price.split("\\s");
-
-                String rokomari_price = words[0]+words[1];
-
-                Document newDocument = Jsoup.connect(url_rokomari).get();
-                //System.out.println("newDocument: " + newDocument);
-                for (Element element : newDocument.select("div.details-book-main-info-wrapper")) {
-
-                    // final String newprice = element.getElementsByTag("p").get(1).text();
-                    final String rating = element.getElementsByTag("span").get(2).text();
-
-                    final String rating_number = element.getElementsByTag("a").get(2).text();
-
-                    if (rating.contains("Ratings") && rating_number.contains("Reviews")) {
-                        System.out.println("Rating: " + rating);
-                        System.out.println("number_of_Rating : " + rating_number);
-                    }
-                    else {
-                        System.out.println("Rating: " + "");
-
-                        System.out.println("number_of_Rating : " + "");
-                    }
-                    //System.out.println("new Price: " + newprice);
-                    System.out.println("rokomari  rating: " + rating);
-                    System.out.println("rokomari Rating number: " + rating_number);
-
-                }
-                System.out.println("Title: " +url_rokomari);
-                System.out.println("price: " +rokomari_price);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
+
 }

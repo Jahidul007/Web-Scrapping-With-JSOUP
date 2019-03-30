@@ -21,6 +21,5 @@ public class ScrapeIMDB {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

@@ -21,7 +21,7 @@ public class ScrapeIMDB {
     static String rokomari_noOfrated = "";
     public static void main(String[] args) {
 
-        /*try {
+        try {
             Document document = Jsoup.connect("https://www.imdb.com/chart/top").get();
             for(Element row : document.select("table.chart.full-width tr")){
 
@@ -32,9 +32,9 @@ public class ScrapeIMDB {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
 
-        try {
+        /*try {
             Document document1 = Jsoup.connect("https://www.rokomari.com/search?term=" + "হাইজেনবার্গের গল্প").get();
             for (Element rowElement : document1.select("div.browse__content-books-wrapper")) {
 
@@ -70,6 +70,6 @@ public class ScrapeIMDB {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+*/
     }
 }

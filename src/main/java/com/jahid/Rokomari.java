@@ -34,15 +34,13 @@ public class Rokomari {
             for (Element row : document.select("div.book-list-wrapper")) {
 
                 rokomari_link = "https://www.rokomari.com" + row.select("a").attr("href");
-
-                //System.out.println(rokomari_link);
-
+                title = row.select("p.book-title").text();
 
                 Document rokomariDocument = Jsoup.connect(rokomari_link).userAgent(USER_AGENT).maxBodySize(0).timeout(0).get();
 
                 for (Element element : rokomariDocument.select("div.details-book-main-info-wrapper")) {
 
-                    title = element.getElementsByTag("h1").text();
+                    //title = element.getElementsByTag("h1").text();
                     author = element.getElementsByTag("a").get(0).text();
                     imageUrl = element.getElementsByTag("img").attr("src");
                     rokomari_price = element.select("p.details-book-info__content-book-price").text();
@@ -73,6 +71,7 @@ public class Rokomari {
 
                     System.out.println("Title: " + title);
                     System.out.println("Author: " + author);
+                    System.out.println("Link: " + rokomari_link);
                     System.out.println("image: " + imageUrl);
                     System.out.println("Price: " + rokomari_price);
                     System.out.println("Rating: " + rokomari_rating);
@@ -125,7 +124,6 @@ public class Rokomari {
 
                 resultList.add(new Book(title, author, rokomari_price, imageUrl, rokomari_link, rokomari_rating,
                         rokomari_numberOfRating, rokomari_price, rokomari_rating, rokomari_numberOfRating, rokomari_link));
-                
             }
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("book_2k19.json"), resultList);
 

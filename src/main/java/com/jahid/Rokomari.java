@@ -81,8 +81,6 @@ public class Rokomari {
 
                 }
 
-                
-
                 resultList.add(new Book(title, author, rokomari_price, imageUrl, rokomari_link, rokomari_rating,
                         rokomari_numberOfRating, rokomari_price, rokomari_rating, rokomari_numberOfRating, rokomari_link));
             }

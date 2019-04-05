@@ -29,9 +29,17 @@ Where</br>
  - mostly returns already structured data(XML or JSON)</br>
  
  ## Selenium webdriver (geckoDriver) - Headless Mode
+ How to build this project
+ 1. Download the project and import into Intellij
+
+2. Set the build path which must have the following libraries 
+
+ * [selenium-server-standalone](https://www.seleniumhq.org/download/)
+ * [geckodriver](https://github.com/mozilla/geckodriver/releases)
+
  
  ```java
- System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
         FirefoxBinary firefoxBinary = new FirefoxBinary();
         firefoxBinary.addCommandLineOptions("--headless");
         FirefoxOptions firefoxOptions = new FirefoxOptions();

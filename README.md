@@ -34,6 +34,7 @@ Where</br>
 
 2. Set the build path which must have the following libraries 
 
+ * <a href="https://www.seleniumhq.org/download/" target="_blank"></a>
  * [selenium-server-standalone](https://www.seleniumhq.org/download/)
  * [geckodriver](https://github.com/mozilla/geckodriver/releases)
 

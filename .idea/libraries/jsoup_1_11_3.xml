@@ -4,6 +4,7 @@
       <root url="jar://E:/Development Tools/Tools/jsoup-1.11.3.jar!/" />
       <root url="jar://C:/unirest.jar!/" />
       <root url="jar://C:/httpclient.jar!/" />
+      <root url="jar://C:/selenium-server-standalone.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

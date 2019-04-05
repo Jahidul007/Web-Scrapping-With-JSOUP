@@ -37,7 +37,7 @@ Where</br>
  * [selenium-server-standalone](https://www.seleniumhq.org/download/)
  * [geckodriver](https://github.com/mozilla/geckodriver/releases)
 
- 
+ ## Source code
  ```java
         System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
         FirefoxBinary firefoxBinary = new FirefoxBinary();
@@ -51,4 +51,23 @@ Where</br>
         String html = driver.getPageSource();
         Document doc = Jsoup.parse(html);
  ```
+ ## For Maven User
+ ```xml
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+        <dependency>
+            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.7.4</version>
+        </dependency>
+```
  

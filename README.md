@@ -27,3 +27,20 @@ Where</br>
  - use the browser's developer tools</br>
  - very fast</br>
  - mostly returns already structured data(XML or JSON)</br>
+ 
+ ## Selenium webdriver (geckoDriver) - Headless Mode
+ 
+ ```java
+ System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
+        FirefoxBinary firefoxBinary = new FirefoxBinary();
+        firefoxBinary.addCommandLineOptions("--headless");
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        firefoxOptions.setBinary(firefoxBinary);
+        FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
+        driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
+        driver.get(url);
+        // parse html
+        String html = driver.getPageSource();
+        Document doc = Jsoup.parse(html);
+ ```
+ 

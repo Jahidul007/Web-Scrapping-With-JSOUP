@@ -25,6 +25,7 @@ public class RokomariReview {
     public static void main(String[] args) {
 
         final List<BookReview> resultList = new ArrayList<BookReview>();
+
         System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
         FirefoxBinary firefoxBinary = new FirefoxBinary();
         firefoxBinary.addCommandLineOptions("--headless");

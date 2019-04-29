@@ -1,5 +1,7 @@
 package com.jahid;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,7 +28,7 @@ public class RokomariReview {
 
         final List<BookReview> resultList = new ArrayList<BookReview>();
 
-        System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
         FirefoxBinary firefoxBinary = new FirefoxBinary();
         firefoxBinary.addCommandLineOptions("--headless");
         FirefoxOptions firefoxOptions = new FirefoxOptions();
@@ -68,8 +70,14 @@ public class RokomariReview {
             }
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("book_review_2k19.json"), resultList);
 
-        } catch (IOException io) {
-            io.printStackTrace();
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            driver.quit();
         }
     }
 }

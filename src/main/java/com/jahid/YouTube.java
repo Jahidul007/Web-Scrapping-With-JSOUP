@@ -108,16 +108,5 @@ public class YouTube {
         return Objects.hash(title, link, noOfViews, noOfComments, comments, noOfLikes, noOfDislikes);
     }
 
-    @Override
-    public String toString() {
-        return "YouTube{" +
-                "title='" + title + '\'' +
-                ", link='" + link + '\'' +
-                ", noOfViews='" + noOfViews + '\'' +
-                ", noOfComments='" + noOfComments + '\'' +
-                ", comments='" + comments + '\'' +
-                ", noOfLikes='" + noOfLikes + '\'' +
-                ", noOfDislikes='" + noOfDislikes + '\'' +
-                '}';
-    }
+
 }

@@ -24,17 +24,20 @@ public class YoutubeCrawler {
     static String noOfComments;
     static String comments;
 
+
     public static void main(String[] args) {
 
         final List<YouTube> resultList = new ArrayList<YouTube>();
 
-        System.setProperty("webdriver.gecko.driver","c:\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
         FirefoxBinary firefoxBinary = new FirefoxBinary();
         firefoxBinary.addCommandLineOptions("--headless");
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         firefoxOptions.setBinary(firefoxBinary);
         FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
+
+        FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
 
         driver.get("https://www.youtube.com/playlist?list=PLgH5QX0i9K3oAZUB2QXR-dZac0c9HNyRa");
 
@@ -43,22 +46,34 @@ public class YoutubeCrawler {
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
 
-            for (Element row : doc.select("div.book-list-wrapper")) {
+            for (Element alink : doc.select("ytd-playlist-video-renderer.style-scope.ytd-playlist-video-list-renderer")) {
 
+                link = "https://www.youtube.com" + alink.select("a").attr("href");
 
+                // System.out.println("Title: " + title);
+                //   System.out.println("Link: " + link);
 
+                reviewDriver.get(link);
+                reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 
+                System.out.println("Link: " +link);
+                String reviewHtml = reviewDriver.getPageSource();
+                Document reviewDoc = Jsoup.parse(reviewHtml);
+                for (Element row : reviewDoc.select("#primary-inner")) {
 
+                    title = row.select("h1.title.style-scope.ytd-video-primary-info-renderer").text();
+                    noOfViews = row.select("span.view-count.style-scope.yt-view-count-renderer").text();
+                }
 
-
-                resultList.add(new YouTube(title, link,noOfViews,noOfComments,comments));
+                resultList.add(new YouTube(title, link, noOfViews, noOfComments, comments));
             }
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtube.json"), resultList);
 
         } catch (IOException io) {
             io.printStackTrace();
-        }finally {
+        } finally {
             driver.quit();
+            reviewDriver.quit();
         }
     }
 }

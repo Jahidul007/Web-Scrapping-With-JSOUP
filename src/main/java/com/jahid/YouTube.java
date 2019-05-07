@@ -4,33 +4,26 @@ import java.util.Objects;
 
 public class YouTube {
 
+    int id;
     String title;
     String link;
     String noOfViews;
-    String noOfComments;
     String comments;
-    String noOfLikes;
-    String noOfDislikes;
 
-    public YouTube() {
-    }
-
-    public YouTube(String title, String link, String noOfViews, String noOfComments, String comments) {
+    public YouTube(int id, String title, String link, String noOfViews, String comments) {
+        this.id = id;
         this.title = title;
         this.link = link;
         this.noOfViews = noOfViews;
-        this.noOfComments = noOfComments;
         this.comments = comments;
     }
 
-    public YouTube(String title, String link, String noOfViews, String noOfComments, String comments, String noOfLikes, String noOfDislikes) {
-        this.title = title;
-        this.link = link;
-        this.noOfViews = noOfViews;
-        this.noOfComments = noOfComments;
-        this.comments = comments;
-        this.noOfLikes = noOfLikes;
-        this.noOfDislikes = noOfDislikes;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -57,14 +50,6 @@ public class YouTube {
         this.noOfViews = noOfViews;
     }
 
-    public String getNoOfComments() {
-        return noOfComments;
-    }
-
-    public void setNoOfComments(String noOfComments) {
-        this.noOfComments = noOfComments;
-    }
-
     public String getComments() {
         return comments;
     }
@@ -73,40 +58,20 @@ public class YouTube {
         this.comments = comments;
     }
 
-    public String getNoOfLikes() {
-        return noOfLikes;
-    }
-
-    public void setNoOfLikes(String noOfLikes) {
-        this.noOfLikes = noOfLikes;
-    }
-
-    public String getNoOfDislikes() {
-        return noOfDislikes;
-    }
-
-    public void setNoOfDislikes(String noOfDislikes) {
-        this.noOfDislikes = noOfDislikes;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         YouTube youTube = (YouTube) o;
-        return Objects.equals(title, youTube.title) &&
+        return Objects.equals(id, youTube.id) &&
+                Objects.equals(title, youTube.title) &&
                 Objects.equals(link, youTube.link) &&
                 Objects.equals(noOfViews, youTube.noOfViews) &&
-                Objects.equals(noOfComments, youTube.noOfComments) &&
-                Objects.equals(comments, youTube.comments) &&
-                Objects.equals(noOfLikes, youTube.noOfLikes) &&
-                Objects.equals(noOfDislikes, youTube.noOfDislikes);
+                Objects.equals(comments, youTube.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, link, noOfViews, noOfComments, comments, noOfLikes, noOfDislikes);
+        return Objects.hash(id, title, link, noOfViews, comments);
     }
-
-
 }

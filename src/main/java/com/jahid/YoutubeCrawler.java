@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -40,32 +42,59 @@ public class YoutubeCrawler {
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
 
         driver.get("https://www.youtube.com/playlist?list=PLgH5QX0i9K3oAZUB2QXR-dZac0c9HNyRa");
-
         try {
+
 
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
 
+            int id = 0;
             for (Element alink : doc.select("ytd-playlist-video-renderer.style-scope.ytd-playlist-video-list-renderer")) {
-
+                id = id + 1;
+                System.out.println("id: " + id);
                 link = "https://www.youtube.com" + alink.select("a").attr("href");
 
                 // System.out.println("Title: " + title);
-                //   System.out.println("Link: " + link);
+                System.out.println("Link: " + link);
 
                 reviewDriver.get(link);
-                reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 
-                System.out.println("Link: " +link);
-                String reviewHtml = reviewDriver.getPageSource();
-                Document reviewDoc = Jsoup.parse(reviewHtml);
-                for (Element row : reviewDoc.select("#primary-inner")) {
+                JavascriptExecutor jse = (JavascriptExecutor) reviewDriver;
 
-                    title = row.select("h1.title.style-scope.ytd-video-primary-info-renderer").text();
-                    noOfViews = row.select("span.view-count.style-scope.yt-view-count-renderer").text();
+                jse.executeScript("window.scroll(1, 500)");
+
+
+                /// now wait let load the comments
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                jse.executeScript("window.scroll(1, 3000)");
 
-                resultList.add(new YouTube(title, link, noOfViews, noOfComments, comments));
+                String html1 = reviewDriver.getPageSource();
+                Document doc1 = Jsoup.parse(html1);
+
+                Elements newDoc = doc1.select("#contents");
+                jse.executeScript("window.scroll(1, 3000)");
+
+                Elements info = doc1.select("#primary-inner");
+
+                Elements view = info.select("#container");
+                title = view.select("h1.style-scope.ytd-video-primary-info-renderer").text();
+                noOfViews = view.select("span.view-count.style-scope.yt-view-count-renderer").text();
+
+                System.out.println("title: " + title);
+                System.out.println("NoOfViews: " + noOfViews);
+
+
+                for (Element link : newDoc.select("#content-text")) {
+
+                    System.out.println(link.text());
+                    comments = link.text();
+                }
+                System.out.println(id);
+                resultList.add(new YouTube(id, title, link, noOfViews, comments));
             }
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtube.json"), resultList);
 

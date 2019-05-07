@@ -37,7 +37,7 @@ public class YoutubeTest {
 
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
 
-        driver.get("https://www.youtube.com/watch?v=LdrBdj84zw4&list=PLgH5QX0i9K3oAZUB2QXR-dZac0c9HNyRa&index=60");
+        driver.get("https://www.youtube.com/watch?v=rj0wDn5ZsVY&list=PLdZgtDJATfC_cEkmpmluv0TnaSh4wKE5J&index=2&t=0s");
 
         JavascriptExecutor jse = (JavascriptExecutor) driver;
 
@@ -46,7 +46,7 @@ public class YoutubeTest {
 
         /// now wait let load the comments
         try {
-            Thread.sleep(1000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -70,7 +70,6 @@ public class YoutubeTest {
 
 
             for (Element alink : newDoc.select("#content-text")) {
-
 
                 System.out.println(alink.text());
             }

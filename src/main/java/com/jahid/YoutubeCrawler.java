@@ -29,7 +29,7 @@ public class YoutubeCrawler {
 
     public static void main(String[] args) {
 
-        final List<YouTube> resultList = new ArrayList<YouTube>();
+        final List<YoutubeModel> resultList = new ArrayList<>();
 
         System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
         FirefoxBinary firefoxBinary = new FirefoxBinary();
@@ -42,6 +42,7 @@ public class YoutubeCrawler {
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
 
         driver.get("https://www.youtube.com/playlist?list=PLgH5QX0i9K3oAZUB2QXR-dZac0c9HNyRa");
+       // driver.get("https://www.youtube.com/watch?v=rj0wDn5ZsVY&list=PLdZgtDJATfC_cEkmpmluv0TnaSh4wKE5J");
         try {
 
 
@@ -87,16 +88,20 @@ public class YoutubeCrawler {
                 System.out.println("title: " + title);
                 System.out.println("NoOfViews: " + noOfViews);
 
-
+                ArrayList<String> userComments;
+                userComments = new ArrayList<>();
                 for (Element link : newDoc.select("#content-text")) {
 
-                    System.out.println(link.text());
+                   // System.out.println(link.text());
                     comments = link.text();
+                    userComments.add(comments);
                 }
+                System.out.println("UserComments: " + userComments);
+
                 System.out.println(id);
-                resultList.add(new YouTube(id, title, link, noOfViews, comments));
+                resultList.add(new YoutubeModel(id, title, link, noOfViews, userComments));
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtube.json"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtubeJ.json"), resultList);
 
         } catch (IOException io) {
             io.printStackTrace();

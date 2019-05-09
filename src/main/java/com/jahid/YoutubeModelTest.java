@@ -1,20 +1,21 @@
 package com.jahid;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
-public class YoutubeModel {
+public class YoutubeModelTest {
     int id;
     String title;
     String link;
     String noOfViews;
-    ArrayList<String> comments;
+    ArrayList<YoutubeComment> comments;
 
-    public YoutubeModel() {
+
+
+    public YoutubeModelTest(int id, String title, String link, String noOfViews, ArrayList<YoutubeModelTest> userComments) {
     }
 
-    public YoutubeModel(int id, String title, String link, String noOfViews, ArrayList<String> comments) {
+    public YoutubeModelTest(int id, String title) {
         this.id = id;
         this.title = title;
         this.link = link;
@@ -54,11 +55,12 @@ public class YoutubeModel {
         this.noOfViews = noOfViews;
     }
 
-    public ArrayList<String> getComments() {
+
+    public ArrayList<YoutubeComment> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<String> comments) {
+    public void setComments(ArrayList<YoutubeComment> comments) {
         this.comments = comments;
     }
 
@@ -66,7 +68,7 @@ public class YoutubeModel {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        YoutubeModel that = (YoutubeModel) o;
+        YoutubeModelTest that = (YoutubeModelTest) o;
         return id == that.id &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(link, that.link) &&

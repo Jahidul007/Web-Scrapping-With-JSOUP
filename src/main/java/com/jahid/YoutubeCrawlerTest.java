@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class YoutubeCrawler {
+public class YoutubeCrawlerTest {
     public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36";
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -41,8 +41,8 @@ public class YoutubeCrawler {
 
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
 
-       // driver.get("https://www.youtube.com/playlist?list=PLgH5QX0i9K3oAZUB2QXR-dZac0c9HNyRa");
-        driver.get("https://www.youtube.com/playlist?list=PLdZgtDJATfC9c0I_QZrkJS_xQTmegFWdb");
+        // driver.get("https://www.youtube.com/playlist?list=PLgH5QX0i9K3oAZUB2QXR-dZac0c9HNyRa");
+        driver.get("https://www.youtube.com/results?search_query=java+scripting+tutorial+for+beginners+in+bangla");
         try {
 
 
@@ -50,7 +50,7 @@ public class YoutubeCrawler {
             Document doc = Jsoup.parse(html);
 
             int id = 0;
-            for (Element alink : doc.select("ytd-playlist-video-renderer.style-scope.ytd-playlist-video-list-renderer")) {
+            for (Element alink : doc.select("ytd-video-renderer.style-scope.ytd-item-section-renderer")) {
                 id = id + 1;
                 System.out.println("id: " + id);
                 link = "https://www.youtube.com" + alink.select("a").attr("href");
@@ -94,7 +94,7 @@ public class YoutubeCrawler {
                 for (Element link : newDoc.select("#content-text")) {
 
                     commentId = commentId+1;
-                   // System.out.println(link.text());
+                    // System.out.println(link.text());
                     comments = link.text();
                     userComments.add(comments);
                 }
@@ -103,7 +103,7 @@ public class YoutubeCrawler {
                 System.out.println(id);
                 resultList.add(new YoutubeModel(id, title, link, noOfViews, userComments));
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtubeTest.json"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtubeSearch.json"), resultList);
 
         } catch (IOException io) {
             io.printStackTrace();

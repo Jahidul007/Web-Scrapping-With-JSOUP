@@ -1,20 +1,15 @@
 package com.jahid;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+
 
 public class YoutubeModel {
-    int id;
-    String title;
+
     String link;
-    String noOfViews;
     ArrayList<String> comments;
 
-    public YoutubeModel() {
-    }
 
-    public YoutubeModel(int id, String title, String link, String noOfViews, ArrayList<String> comments) {
+   /* public YoutubeModel(int id, String title, String link, String noOfViews, ArrayList<String> comments) {
         this.id = id;
         this.title = title;
         this.link = link;
@@ -77,5 +72,31 @@ public class YoutubeModel {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, link, noOfViews, comments);
+    }*/
+
+
+
+    public YoutubeModel(String link, ArrayList<String> comments) {
+        this.link = link;
+        this.comments = comments;
     }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+
+
+    public ArrayList<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
+    }
+
 }

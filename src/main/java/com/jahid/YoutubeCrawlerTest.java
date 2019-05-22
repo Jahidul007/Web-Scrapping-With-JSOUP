@@ -25,6 +25,9 @@ public class YoutubeCrawlerTest {
     static String noOfViews;
     static String noOfComments;
     static String comments;
+    static String channelName;
+    static String publishedDate;
+    static String category;
 
 
     public static void main(String[] args) {
@@ -97,13 +100,14 @@ public class YoutubeCrawlerTest {
                     // System.out.println(link.text());
                     comments = link.text();
                     userComments.add(comments);
+
                 }
                 System.out.println("UserComments: " + userComments);
 
                 System.out.println(id);
-                resultList.add(new YoutubeModel(id, title, link, noOfViews, userComments));
+                resultList.add(new YoutubeModel( link, userComments));
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtubeSearch.json"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtubeSearchtest.json"), resultList);
 
         } catch (IOException io) {
             io.printStackTrace();

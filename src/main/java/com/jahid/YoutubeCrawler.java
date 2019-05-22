@@ -101,7 +101,7 @@ public class YoutubeCrawler {
                 System.out.println("UserComments: " + userComments);
 
                 System.out.println(id);
-                resultList.add(new YoutubeModel(id, title, link, noOfViews, userComments));
+               // resultList.add(new YoutubeModel(id, title, link, noOfViews, userComments));
             }
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtubeTest.json"), resultList);
 

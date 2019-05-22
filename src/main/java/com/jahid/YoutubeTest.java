@@ -56,6 +56,8 @@ public class YoutubeTest {
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
 
+
+
             Elements newDoc = doc.select("#contents");
             jse.executeScript("window.scroll(1, 3000)");
 
@@ -65,13 +67,20 @@ public class YoutubeTest {
             title = view.select("h1.style-scope.ytd-video-primary-info-renderer").text();
             noOfViews = view.select("span.view-count.style-scope.yt-view-count-renderer").text();
 
+            Elements meta = doc.select("#meta-contents");
+            String pubDate = meta.select("span.date.style-scope.ytd-video-secondary-info-renderer").text();
+            String channelName = meta.select("a.yt-simple-endpoint.style-scope.yt-formatted-string").get(0).text();
+
+
             System.out.println("title: " + title);
             System.out.println("NoOfViews: " + noOfViews);
+            System.out.println("Pub date: " + pubDate);
+            System.out.println("channel Name: " + channelName);
 
 
             for (Element alink : newDoc.select("#content-text")) {
 
-                System.out.println(alink.text());
+               // System.out.println(alink.text());
             }
 
 

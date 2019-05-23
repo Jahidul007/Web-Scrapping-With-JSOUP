@@ -48,22 +48,25 @@ public class YoutubeCrawlerTest {
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
 
         // driver.get("https://www.youtube.com/playlist?list=PLgH5QX0i9K3oAZUB2QXR-dZac0c9HNyRa");
-        driver.get("https://www.youtube.com/results?search_query=java+tutorial+bangla&sp=CAM%253D");
+        driver.get("https://www.youtube.com/results?search_query=java+bangla+tutorial&sp=CAM%253D");
 
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.scrollTo(0, 500000)");
 
+        /// now wait let load the url
         try {
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript("window.scroll(0, 500000)");
-            /// now wait let load the url
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-            jse.executeScript("window.scroll(0, 500000)");
+        jse.executeScript("window.scrollTo(0, 500000)");
+        try {
+
+
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
+
 
             int id = 0;
             for (Element alink : doc.select("ytd-video-renderer.style-scope.ytd-item-section-renderer")) {
@@ -71,7 +74,7 @@ public class YoutubeCrawlerTest {
 
                 System.out.println("id: " + id);
                 link = "https://www.youtube.com" + alink.select("a").attr("href");
-                jse.executeScript("window.scroll(0, 500000)");
+
                 // System.out.println("Title: " + title);
                 System.out.println("Link: " + link);
 

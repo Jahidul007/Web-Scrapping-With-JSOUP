@@ -5,14 +5,18 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -28,9 +32,10 @@ public class YoutubeCrawlerTest {
     static String channelName;
     static String publishedDate;
     static String category;
+    static String html;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         final List<YoutubeModel> resultList = new ArrayList<>();
         final List<YoutubeDetails> detailsList = new ArrayList<>();
@@ -40,31 +45,38 @@ public class YoutubeCrawlerTest {
         firefoxBinary.addCommandLineOptions("--headless");
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         firefoxOptions.setBinary(firefoxBinary);
+
         FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
+        reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 
-        // driver.get("https://www.youtube.com/playlist?list=PLgH5QX0i9K3oAZUB2QXR-dZac0c9HNyRa");
         driver.get("https://www.youtube.com/results?search_query=java+bangla+tutorial&sp=CAM%253D");
 
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.scrollTo(0, 500000)");
-
-        /// now wait let load the url
         try {
-            Thread.sleep(10000);
+            long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
+
+            while (true) {
+                for (int i = 0;i<110 ;i++) {
+                    ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 50000);");
+                    html = driver.getPageSource();
+                }
+                Thread.sleep(2000);
+
+                long newHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
+                if (newHeight == lastHeight) {
+                    break;
+                }
+                lastHeight = newHeight;
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        jse.executeScript("window.scrollTo(0, 500000)");
         try {
-
-
-            String html = driver.getPageSource();
+           // html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
-
 
             int id = 0;
             for (Element alink : doc.select("ytd-video-renderer.style-scope.ytd-item-section-renderer")) {
@@ -80,16 +92,14 @@ public class YoutubeCrawlerTest {
 
                 JavascriptExecutor jse1 = (JavascriptExecutor) reviewDriver;
 
-                jse1.executeScript("window.scroll(0, 500000)");
+                jse1.executeScript("window.scroll(0, 5000)");
 
 
                 /// now wait let load the comments
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                jse1.executeScript("window.scroll(0, 500000)");
+
+                Thread.sleep(5000);
+
+                jse1.executeScript("window.scroll(0, 5000)");
 
                 String html1 = reviewDriver.getPageSource();
                 Document doc1 = Jsoup.parse(html1);

@@ -22,14 +22,15 @@ public class YoutubeTest {
     static String noOfViews = "";
     static String noOfComments = "";
     static String comments = "";
+    static String html = "";
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
 
         FirefoxBinary firefoxBinary = new FirefoxBinary();
-        firefoxBinary.addCommandLineOptions("--headless");
+       // firefoxBinary.addCommandLineOptions("--headless");
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         firefoxOptions.setBinary(firefoxBinary);
         FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
@@ -37,29 +38,34 @@ public class YoutubeTest {
 
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
 
-        driver.get("https://www.youtube.com/watch?v=rj0wDn5ZsVY&list=PLdZgtDJATfC_cEkmpmluv0TnaSh4wKE5J&index=2&t=0s");
+        reviewDriver.get("https://www.youtube.com/watch?v=rj0wDn5ZsVY&list=PLdZgtDJATfC_cEkmpmluv0TnaSh4wKE5J&index=2&t=0s");
 
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-
-        jse.executeScript("window.scroll(1, 500)");
-
-
-        /// now wait let load the comments
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        jse.executeScript("window.scroll(1, 3000)");
         try {
 
-            String html = driver.getPageSource();
+            long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
+
+            while (true) {
+                for (int i = 0;i<110 ;i++) {
+                    ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 50000);");
+                    html = reviewDriver.getPageSource();
+                    System.out.println();
+                }
+                Thread.sleep(2000);
+
+                long newHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
+                if (newHeight == lastHeight) {
+                    break;
+                }
+                lastHeight = newHeight;
+            }
             Document doc = Jsoup.parse(html);
 
 
 
             Elements newDoc = doc.select("#contents");
-            jse.executeScript("window.scroll(1, 3000)");
+            //jse.executeScript("window.scroll(1, 3000)");
+
+
 
             Elements info = doc.select("#primary-inner");
 
@@ -80,12 +86,10 @@ public class YoutubeTest {
 
             for (Element alink : newDoc.select("#content-text")) {
 
-               // System.out.println(alink.text());
+                System.out.println(alink.text());
             }
-
-
         } finally {
-            driver.close();
+            driver.quit();
         }
     }
 }

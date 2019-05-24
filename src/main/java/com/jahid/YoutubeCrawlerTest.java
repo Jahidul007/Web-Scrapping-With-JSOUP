@@ -63,7 +63,7 @@ public class YoutubeCrawlerTest {
                     ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 50000);");
                     html = driver.getPageSource();
                 }
-                Thread.sleep(2000);
+                Thread.sleep(1000);
 
                 long newHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
                 if (newHeight == lastHeight) {
@@ -98,61 +98,61 @@ public class YoutubeCrawlerTest {
 
                 /// now wait let load the comments
 
-               // Thread.sleep(5000);
+                // Thread.sleep(5000);
 
                 // jse1.executeScript("window.scroll(0, 5000)");
-                try {
-                    long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
 
-                    while (true) {
-                        for (int i = 0; i < 40; i++) {
-                            ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 50000);");
-                            html1 = reviewDriver.getPageSource();
-                        }
-                        Thread.sleep(2000);
-                        long newHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
-                        if (newHeight == lastHeight) {
-                            break;
-                        }
-                        lastHeight = newHeight;
+                long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
+
+                while (true) {
+                    for (int i = 0; i < 80; i++) {
+                        ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 5000);");
+                        html1 = reviewDriver.getPageSource();
                     }
+                    Thread.sleep(2000);
+                    long newHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
+                    if (newHeight == lastHeight) {
+                        break;
+                    }
+                    lastHeight = newHeight;
+                }
 
+                try {
+                    Document doc1 = Jsoup.parse(html1);
+
+                    Elements newDoc = doc1.select("#contents");
+
+                    Elements info = doc1.select("#primary-inner");
+
+                    Elements view = info.select("#container");
+                    title = view.select("h1.style-scope.ytd-video-primary-info-renderer").text();
+                    noOfViews = view.select("span.view-count.style-scope.yt-view-count-renderer").text();
+
+                    Elements meta = doc1.select("#meta-contents");
+                    publishedDate = meta.select("span.date.style-scope.ytd-video-secondary-info-renderer").text();
+                    channelName = meta.select("a.yt-simple-endpoint.style-scope.yt-formatted-string").get(0).text();
+
+                    System.out.println("title: " + title);
+
+                    ArrayList<String> userComments;
+                    userComments = new ArrayList<>();
+                    int commentId = 0;
+                    for (Element link : newDoc.select("#content-text")) {
+
+                        commentId = commentId + 1;
+                        // System.out.println(link.text());
+                        comments = link.text();
+                        userComments.add(comments);
+
+                    }
+                    System.out.println("UserComments: " + userComments);
+
+                    System.out.println(id);
+                    resultList.add(new YoutubeModel(id, link, userComments));
+                    detailsList.add(new YoutubeDetails(id, title, link, noOfViews, channelName, publishedDate));
                 } catch (Exception io) {
                     io.printStackTrace();
                 }
-
-                Document doc1 = Jsoup.parse(html1);
-
-                Elements newDoc = doc1.select("#contents");
-
-                Elements info = doc1.select("#primary-inner");
-
-                Elements view = info.select("#container");
-                title = view.select("h1.style-scope.ytd-video-primary-info-renderer").text();
-                noOfViews = view.select("span.view-count.style-scope.yt-view-count-renderer").text();
-
-                Elements meta = doc1.select("#meta-contents");
-                publishedDate = meta.select("span.date.style-scope.ytd-video-secondary-info-renderer").text();
-                channelName = meta.select("a.yt-simple-endpoint.style-scope.yt-formatted-string").get(0).text();
-
-                System.out.println("title: " + title);
-
-                ArrayList<String> userComments;
-                userComments = new ArrayList<>();
-                int commentId = 0;
-                for (Element link : newDoc.select("#content-text")) {
-
-                    commentId = commentId + 1;
-                    // System.out.println(link.text());
-                    comments = link.text();
-                    userComments.add(comments);
-
-                }
-                System.out.println("UserComments: " + userComments);
-
-                System.out.println(id);
-                resultList.add(new YoutubeModel(id, link, userComments));
-                detailsList.add(new YoutubeDetails(id, title, link, noOfViews, channelName, publishedDate));
             }
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("comments.json"), resultList);
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("details.json"), detailsList);

@@ -34,9 +34,10 @@ public class YoutubeTest {
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         firefoxOptions.setBinary(firefoxBinary);
         FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
-        driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
+       // driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
+        reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 
         reviewDriver.get("https://www.youtube.com/watch?v=rj0wDn5ZsVY&list=PLdZgtDJATfC_cEkmpmluv0TnaSh4wKE5J&index=2&t=0s");
 
@@ -89,7 +90,7 @@ public class YoutubeTest {
                 System.out.println(alink.text());
             }
         } finally {
-            driver.quit();
+            reviewDriver.quit();
         }
     }
 }

@@ -33,6 +33,7 @@ public class YoutubeCrawlerTest {
     static String publishedDate;
     static String category;
     static String html;
+    static String html1;
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -58,7 +59,7 @@ public class YoutubeCrawlerTest {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
 
             while (true) {
-                for (int i = 0;i<110 ;i++) {
+                for (int i = 0; i < 110; i++) {
                     ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 50000);");
                     html = driver.getPageSource();
                 }
@@ -75,7 +76,7 @@ public class YoutubeCrawlerTest {
         }
 
         try {
-           // html = driver.getPageSource();
+            // html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
 
             int id = 0;
@@ -90,18 +91,36 @@ public class YoutubeCrawlerTest {
 
                 reviewDriver.get(link);
 
-                JavascriptExecutor jse1 = (JavascriptExecutor) reviewDriver;
+                //JavascriptExecutor jse1 = (JavascriptExecutor) reviewDriver;
 
-                jse1.executeScript("window.scroll(0, 5000)");
+                // jse1.executeScript("window.scroll(0, 5000)");
 
 
                 /// now wait let load the comments
 
-                Thread.sleep(5000);
+               // Thread.sleep(5000);
 
-                jse1.executeScript("window.scroll(0, 5000)");
+                // jse1.executeScript("window.scroll(0, 5000)");
+                try {
+                    long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
 
-                String html1 = reviewDriver.getPageSource();
+                    while (true) {
+                        for (int i = 0; i < 40; i++) {
+                            ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 50000);");
+                            html1 = reviewDriver.getPageSource();
+                        }
+                        Thread.sleep(2000);
+                        long newHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
+                        if (newHeight == lastHeight) {
+                            break;
+                        }
+                        lastHeight = newHeight;
+                    }
+
+                } catch (Exception io) {
+                    io.printStackTrace();
+                }
+
                 Document doc1 = Jsoup.parse(html1);
 
                 Elements newDoc = doc1.select("#contents");

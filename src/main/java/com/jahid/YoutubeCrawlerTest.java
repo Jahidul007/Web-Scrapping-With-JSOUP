@@ -60,17 +60,18 @@ public class YoutubeCrawlerTest {
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 */
-        driver.get("https://www.youtube.com/results?search_query=javascript+bangla+tutorial&sp=CAM%253D");
+        Thread.sleep(5000);
+        driver.get("https://www.youtube.com/results?search_query=php+bangla+tutorial&sp=CAM%253D");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
 
             while (true) {
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 200; i++) {
                     ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 50000);");
                     html = driver.getPageSource();
                 }
-                Thread.sleep(2000);
+                Thread.sleep(5000);
 
                 long newHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
                 if (newHeight == lastHeight) {
@@ -152,8 +153,8 @@ public class YoutubeCrawlerTest {
                     io.printStackTrace();
                 }
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsJavascript.json"), resultList);
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsJavascript.json"), detailsList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsPHP.json"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsPHP.json"), detailsList);
 
         } catch (IOException io) {
             io.printStackTrace();

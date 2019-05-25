@@ -60,7 +60,7 @@ public class YoutubeCrawlerTest {
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 */
-        driver.get("https://www.youtube.com/results?search_query=java+bangla+tutorial+for+beginners");
+        driver.get("https://www.youtube.com/results?search_query=javascript+bangla+tutorial&sp=CAM%253D");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
@@ -94,17 +94,20 @@ public class YoutubeCrawlerTest {
                 link = "https://www.youtube.com" + alink.select("a").attr("href");
 
                 System.out.println("Link: " + link);
-
+                Thread.sleep(2000);
                 reviewDriver.get(link);
+                ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 2500);");
+
+                Thread.sleep(9000);
                 try {
                     long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
 
                     while (true) {
-                        for (int i = 0; i < 30; i++) {
+                        for (int i = 0; i < 80; i++) {
                             ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 5000);");
                             html1 = reviewDriver.getPageSource();
                         }
-                        Thread.sleep(5000);
+                        Thread.sleep(4000);
                         long newHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
                         if (newHeight == lastHeight) {
                             break;
@@ -149,8 +152,8 @@ public class YoutubeCrawlerTest {
                     io.printStackTrace();
                 }
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsJava.json"), resultList);
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsJava.json"), detailsList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsJavascript.json"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsJavascript.json"), detailsList);
 
         } catch (IOException io) {
             io.printStackTrace();

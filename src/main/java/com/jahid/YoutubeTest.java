@@ -39,17 +39,16 @@ public class YoutubeTest {
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 
-        reviewDriver.get("https://www.youtube.com/watch?v=rj0wDn5ZsVY&list=PLdZgtDJATfC_cEkmpmluv0TnaSh4wKE5J&index=2&t=0s");
+        reviewDriver.get("https://www.youtube.com/watch?v=C2FYTvGLjFc");
 
         try {
 
             long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
 
             while (true) {
-                for (int i = 0;i<110 ;i++) {
+                for (int i = 0;i<10 ;i++) {
                     ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 50000);");
                     html = reviewDriver.getPageSource();
-                    System.out.println();
                 }
                 Thread.sleep(2000);
 

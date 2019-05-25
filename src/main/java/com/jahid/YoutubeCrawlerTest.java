@@ -7,7 +7,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -34,6 +36,7 @@ public class YoutubeCrawlerTest {
     static String category;
     static String html;
     static String html1;
+    static ArrayList<String> userComments;
 
 
     public static void main(String[] args) throws InterruptedException {
@@ -41,29 +44,33 @@ public class YoutubeCrawlerTest {
         final List<YoutubeModel> resultList = new ArrayList<>();
         final List<YoutubeDetails> detailsList = new ArrayList<>();
 
-        System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
+        /*System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
         FirefoxBinary firefoxBinary = new FirefoxBinary();
-        firefoxBinary.addCommandLineOptions("--headless");
+        //firefoxBinary.addCommandLineOptions("--headless");
         FirefoxOptions firefoxOptions = new FirefoxOptions();
-        firefoxOptions.setBinary(firefoxBinary);
+        firefoxOptions.setBinary(firefoxBinary);*/
 
-        FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
+        System.setProperty("webdriver.chrome.driver", "c:\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        WebDriver reviewDriver = new ChromeDriver();
+
+        /*FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
-
-        driver.get("https://www.youtube.com/results?search_query=java+bangla+tutorial&sp=CAM%253D");
+*/
+        driver.get("https://www.youtube.com/results?search_query=java+bangla+tutorial+for+beginners");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
 
             while (true) {
-                for (int i = 0; i < 110; i++) {
+                for (int i = 0; i < 100; i++) {
                     ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 50000);");
                     html = driver.getPageSource();
                 }
-                Thread.sleep(1000);
+                Thread.sleep(2000);
 
                 long newHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
                 if (newHeight == lastHeight) {
@@ -86,38 +93,26 @@ public class YoutubeCrawlerTest {
                 System.out.println("id: " + id);
                 link = "https://www.youtube.com" + alink.select("a").attr("href");
 
-                // System.out.println("Title: " + title);
                 System.out.println("Link: " + link);
 
                 reviewDriver.get(link);
-
-                //JavascriptExecutor jse1 = (JavascriptExecutor) reviewDriver;
-
-                // jse1.executeScript("window.scroll(0, 5000)");
-
-
-                /// now wait let load the comments
-
-                // Thread.sleep(5000);
-
-                // jse1.executeScript("window.scroll(0, 5000)");
-
-                long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
-
-                while (true) {
-                    for (int i = 0; i < 80; i++) {
-                        ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 5000);");
-                        html1 = reviewDriver.getPageSource();
-                    }
-                    Thread.sleep(2000);
-                    long newHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
-                    if (newHeight == lastHeight) {
-                        break;
-                    }
-                    lastHeight = newHeight;
-                }
-
                 try {
+                    long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
+
+                    while (true) {
+                        for (int i = 0; i < 30; i++) {
+                            ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 5000);");
+                            html1 = reviewDriver.getPageSource();
+                        }
+                        Thread.sleep(5000);
+                        long newHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
+                        if (newHeight == lastHeight) {
+                            break;
+                        }
+                        lastHeight = newHeight;
+                    }
+
+
                     Document doc1 = Jsoup.parse(html1);
 
                     Elements newDoc = doc1.select("#contents");
@@ -134,7 +129,7 @@ public class YoutubeCrawlerTest {
 
                     System.out.println("title: " + title);
 
-                    ArrayList<String> userComments;
+
                     userComments = new ArrayList<>();
                     int commentId = 0;
                     for (Element link : newDoc.select("#content-text")) {
@@ -150,12 +145,12 @@ public class YoutubeCrawlerTest {
                     System.out.println(id);
                     resultList.add(new YoutubeModel(id, link, userComments));
                     detailsList.add(new YoutubeDetails(id, title, link, noOfViews, channelName, publishedDate));
-                } catch (Exception io) {
+                }catch (Exception io) {
                     io.printStackTrace();
                 }
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("comments.json"), resultList);
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("details.json"), detailsList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsJava.json"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsJava.json"), detailsList);
 
         } catch (IOException io) {
             io.printStackTrace();

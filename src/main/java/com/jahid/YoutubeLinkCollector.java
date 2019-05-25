@@ -19,13 +19,13 @@ public class YoutubeLinkCollector {
         System.setProperty("webdriver.chrome.driver", "c:\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
 
-        driver.get("https://www.youtube.com/results?search_query=java+bangla+tutorial&sp=CAM%253D");
+        driver.get("https://www.youtube.com/results?search_query=python+bangla+tutorial+for+beginners");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
 
             while (true) {
-                for (int i = 0;i<110 ;i++) {
+                for (int i = 0;i<140 ;i++) {
                     ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 50000);");
                      html = driver.getPageSource();
                 }

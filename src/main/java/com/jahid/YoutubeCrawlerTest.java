@@ -5,22 +5,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxBinary;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class YoutubeCrawlerTest {
     public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36";
@@ -61,14 +53,14 @@ public class YoutubeCrawlerTest {
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 */
         Thread.sleep(5000);
-        driver.get("https://www.youtube.com/results?search_query=php+bangla+tutorial&sp=CAM%253D");
+        driver.get("https://www.youtube.com/results?search_query=algorithms+bangla+tutorial&sp=CAM%253D");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
 
             while (true) {
                 for (int i = 0; i < 200; i++) {
-                    ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 50000);");
+                    ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 500000);");
                     html = driver.getPageSource();
                 }
                 Thread.sleep(5000);
@@ -153,8 +145,8 @@ public class YoutubeCrawlerTest {
                     io.printStackTrace();
                 }
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsPHP.json"), resultList);
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsPHP.json"), detailsList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsAlgorithms.json"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsAlgorithms.json"), detailsList);
 
         } catch (IOException io) {
             io.printStackTrace();

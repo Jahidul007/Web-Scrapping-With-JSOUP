@@ -8,6 +8,7 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,8 +44,13 @@ public class YoutubeCrawlerTest {
         firefoxOptions.setBinary(firefoxBinary);*/
 
         System.setProperty("webdriver.chrome.driver", "c:\\chromedriver.exe");
+        ChromeOptions chromeOptions = new ChromeOptions();
+
+        chromeOptions.addArguments("--mute-audio");
         WebDriver driver = new ChromeDriver();
-        WebDriver reviewDriver = new ChromeDriver();
+        WebDriver reviewDriver = new ChromeDriver(chromeOptions);
+
+
 
         /*FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
@@ -53,7 +59,7 @@ public class YoutubeCrawlerTest {
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 */
         Thread.sleep(5000);
-        driver.get("https://www.youtube.com/results?search_query=algorithms+bangla+tutorial&sp=CAM%253D");
+        driver.get("https://www.youtube.com/results?search_query=hsc+ict+bangla+tutorial&sp=CAM%253D");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
@@ -97,7 +103,7 @@ public class YoutubeCrawlerTest {
 
                     while (true) {
                         for (int i = 0; i < 80; i++) {
-                            ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 5000);");
+                            ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 50000);");
                             html1 = reviewDriver.getPageSource();
                         }
                         Thread.sleep(4000);
@@ -145,8 +151,8 @@ public class YoutubeCrawlerTest {
                     io.printStackTrace();
                 }
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsAlgorithms.json"), resultList);
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsAlgorithms.json"), detailsList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsHscIct.json"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsHscIct.json"), detailsList);
 
         } catch (IOException io) {
             io.printStackTrace();

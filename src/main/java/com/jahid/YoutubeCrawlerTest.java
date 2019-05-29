@@ -59,7 +59,7 @@ public class YoutubeCrawlerTest {
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 */
         Thread.sleep(5000);
-        driver.get("https://www.youtube.com/results?search_query=HTML+bangla+tutorial&sp=CAM%253D");
+        driver.get("https://www.youtube.com/results?search_query=Java+bangla+tutorial&sp=CAM%253D");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
@@ -102,8 +102,8 @@ public class YoutubeCrawlerTest {
                     long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
 
                     while (true) {
-                        for (int i = 0; i < 80; i++) {
-                            ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 50000);");
+                        for (int i = 0; i < 100; i++) {
+                            ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 500000);");
                             html1 = reviewDriver.getPageSource();
                         }
                         Thread.sleep(4000);
@@ -151,8 +151,8 @@ public class YoutubeCrawlerTest {
                     io.printStackTrace();
                 }
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsHTML.json"), resultList);
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsHTML.json"), detailsList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsJAVA.csv"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsJAVA.csv"), detailsList);
 
         } catch (IOException io) {
             io.printStackTrace();

@@ -42,7 +42,7 @@ public class YoutubeCrawler {
         FirefoxDriver reviewDriver = new FirefoxDriver(firefoxOptions);
 
        // driver.get("https://www.youtube.com/playlist?list=PLgH5QX0i9K3oAZUB2QXR-dZac0c9HNyRa");
-        driver.get("https://www.youtube.com/playlist?list=PLdZgtDJATfC9c0I_QZrkJS_xQTmegFWdb");
+        driver.get("https://www.youtube.com/watch?v=rj0wDn5ZsVY&list=PLdZgtDJATfC_cEkmpmluv0TnaSh4wKE5J");
         try {
 
 
@@ -103,7 +103,7 @@ public class YoutubeCrawler {
                 System.out.println(id);
                // resultList.add(new YoutubeModel(id, title, link, noOfViews, userComments));
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtubeTest.json"), resultList);
+            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("youtubePy.csv"), resultList);
 
         } catch (IOException io) {
             io.printStackTrace();

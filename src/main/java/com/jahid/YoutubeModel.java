@@ -17,6 +17,11 @@ public class YoutubeModel {
         this.comments = comments;
     }
 
+    public YoutubeModel(int id, String link) {
+        this.id = id;
+        this.link = link;
+    }
+
     public int getId() {
         return id;
     }

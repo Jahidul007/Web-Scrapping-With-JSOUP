@@ -34,6 +34,7 @@ public class YoutubeCrawlerTest {
 
     public static void main(String[] args) throws InterruptedException {
 
+        final List<YoutubeModel> linkList = new ArrayList<>();
         final List<YoutubeModel> resultList = new ArrayList<>();
         final List<YoutubeDetails> detailsList = new ArrayList<>();
 
@@ -59,13 +60,13 @@ public class YoutubeCrawlerTest {
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 */
         Thread.sleep(5000);
-        driver.get("https://www.youtube.com/results?search_query=Java+bangla+tutorial&sp=CAM%253D");
+        driver.get("https://www.youtube.com/results?search_query=bangla");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
 
             while (true) {
-                for (int i = 0; i < 200; i++) {
+                for (int i = 0; i < 20000; i++) {
                     ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 500000);");
                     html = driver.getPageSource();
                 }
@@ -93,6 +94,8 @@ public class YoutubeCrawlerTest {
                 link = "https://www.youtube.com" + alink.select("a").attr("href");
 
                 System.out.println("Link: " + link);
+
+
                 Thread.sleep(2000);
                 reviewDriver.get(link);
                 ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 2500);");
@@ -145,11 +148,14 @@ public class YoutubeCrawlerTest {
                     System.out.println("UserComments: " + userComments);
 
                     System.out.println(id);
+                    linkList.add(new YoutubeModel(id,link));
                     resultList.add(new YoutubeModel(id, link, userComments));
                     detailsList.add(new YoutubeDetails(id, title, link, noOfViews, channelName, publishedDate));
                 }catch (Exception io) {
                     io.printStackTrace();
                 }
+                OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("link.csv"), linkList);
+
             }
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsJAVA.csv"), resultList);
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsJAVA.csv"), detailsList);

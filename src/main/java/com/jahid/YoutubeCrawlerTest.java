@@ -34,7 +34,7 @@ public class YoutubeCrawlerTest {
 
     public static void main(String[] args) throws InterruptedException {
 
-        final List<YoutubeModel> linkList = new ArrayList<>();
+        final List<Link> linkList = new ArrayList<>();
         final List<YoutubeModel> resultList = new ArrayList<>();
         final List<YoutubeDetails> detailsList = new ArrayList<>();
 
@@ -60,17 +60,20 @@ public class YoutubeCrawlerTest {
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 */
         Thread.sleep(5000);
-        driver.get("https://www.youtube.com/results?search_query=bangla");
+        driver.get("https://www.youtube.com/results?search_query=cricket");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
 
+            System.out.println(lastHeight);
             while (true) {
-                for (int i = 0; i < 20000; i++) {
+                for (int i = 0; i < 300; i++) {
                     ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 500000);");
                     html = driver.getPageSource();
+
                 }
-                Thread.sleep(5000);
+                System.out.println(html);
+                Thread.sleep(10);
 
                 long newHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
                 if (newHeight == lastHeight) {
@@ -86,6 +89,7 @@ public class YoutubeCrawlerTest {
             // html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
 
+
             int id = 0;
             for (Element alink : doc.select("ytd-video-renderer.style-scope.ytd-item-section-renderer")) {
                 id = id + 1;
@@ -96,16 +100,21 @@ public class YoutubeCrawlerTest {
                 System.out.println("Link: " + link);
 
 
-                Thread.sleep(2000);
-                reviewDriver.get(link);
+                Thread.sleep(1000);
+                linkList.add(new Link(id,link));
+                OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("link1.json"), linkList);
+
+               /* reviewDriver.get(link);
+               // System.out.println("link" + link);
+
                 ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 2500);");
 
-                Thread.sleep(9000);
+                Thread.sleep(1000);
                 try {
                     long lastHeight = (long) ((JavascriptExecutor) reviewDriver).executeScript("return document.body.scrollHeight");
 
                     while (true) {
-                        for (int i = 0; i < 100; i++) {
+                        for (int i = 0; i < 1000; i++) {
                             ((JavascriptExecutor) reviewDriver).executeScript("window.scrollTo(0, 500000);");
                             html1 = reviewDriver.getPageSource();
                         }
@@ -148,17 +157,16 @@ public class YoutubeCrawlerTest {
                     System.out.println("UserComments: " + userComments);
 
                     System.out.println(id);
-                    linkList.add(new YoutubeModel(id,link));
+
                     resultList.add(new YoutubeModel(id, link, userComments));
                     detailsList.add(new YoutubeDetails(id, title, link, noOfViews, channelName, publishedDate));
                 }catch (Exception io) {
                     io.printStackTrace();
-                }
-                OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("link.csv"), linkList);
+                }*/
 
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsJAVA.csv"), resultList);
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsJAVA.csv"), detailsList);
+            //OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("commentsJAVA.csv"), resultList);
+          //  OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("detailsJAVA.csv"), detailsList);
 
         } catch (IOException io) {
             io.printStackTrace();

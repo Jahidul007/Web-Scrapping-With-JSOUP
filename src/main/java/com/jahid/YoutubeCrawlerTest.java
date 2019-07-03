@@ -60,7 +60,7 @@ public class YoutubeCrawlerTest {
         reviewDriver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 */
         Thread.sleep(5000);
-        driver.get("https://www.youtube.com/results?search_query=cricket");
+        driver.get("https://www.youtube.com/results?search_query=songs");
 
         try {
             long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
@@ -102,7 +102,7 @@ public class YoutubeCrawlerTest {
 
                 Thread.sleep(1000);
                 linkList.add(new Link(id,link));
-                OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("link1.json"), linkList);
+                OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("link2.json"), linkList);
 
                /* reviewDriver.get(link);
                // System.out.println("link" + link);

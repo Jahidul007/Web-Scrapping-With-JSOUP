@@ -23,6 +23,7 @@ public class RokomariReview {
     static String title;
     static String rokomari_link;
     static String review;
+    static String summary;
 
     public static void main(String[] args) {
 
@@ -36,8 +37,8 @@ public class RokomariReview {
         FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
 
-        driver.get("https://www.rokomari.com/book/category/2216/bookfair-2019?page=1");
-
+        driver.get("https://www.rokomari.com/book/author/1/%E0%A6%B9%E0%A7%81%E0%A6%AE%E0%A6%BE%E0%A7%9F%E0%A7%82%E0%A6%A8-%E0%A6%86%E0%A6%B9%E0%A6%AE%E0%A7%87%E0%A6%A6?ref=mm_p0&page=4");
+        int i = 0;
         try {
 
             String html = driver.getPageSource();
@@ -61,14 +62,16 @@ public class RokomariReview {
 
                     review = element.select("div.js--ratings-review__content--review.ratings-review__content--review").select("div.user-review-container--description").text();
 
-                    System.out.println(1);
+                    System.out.println(i++);
+                    System.out.println("review: " + title);
                     System.out.println("review: " + review);
                 }
 
 
-                resultList.add(new BookReview(title, review));
+                resultList.add(new BookReview(title, summary, review));
+                OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("book_review_9.json"), resultList);
+                reviewDriver.quit();
             }
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValue(new File("book_review_2k19.json"), resultList);
 
         } catch (JsonGenerationException e) {
             e.printStackTrace();

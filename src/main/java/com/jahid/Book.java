@@ -4,17 +4,22 @@ import java.util.Objects;
 
 public class Book {
 
-    private final String title;
-    private final String author;
-    private final String image;
-    private final String boibazar_price;
-    private final String boibazar_url;
-    private final String boibazar_rating;
-    private final String boibazar_noOfRated;
-    private final String rokomari_price;
-    private final String rokomari_rating;
-    private final String rokomari_url;
-    private final String rokomari_noOfrated ;
+    private  String title;
+    private  String author;
+    private  String image;
+    private  String boibazar_price;
+    private  String boibazar_url;
+    private  String boibazar_rating;
+    private  String boibazar_noOfRated;
+    private  String rokomari_price;
+    private  String rokomari_rating;
+    private  String rokomari_url;
+    private  String rokomari_noOfrated ;
+    private String comments;
+    public Book(String title, String comments){
+        this.title = title;
+        this.comments = comments;
+    }
 
     public Book(String title, String author, String price, String image, String url, String boibazar_rating, String boibazar_noOfRated, String rokomari_price, String rokomari_rating, String rokomari_url, String rokomari_noOfrated) {
         this.title = title;
@@ -28,6 +33,10 @@ public class Book {
         this.rokomari_rating = rokomari_rating;
         this.rokomari_url = rokomari_url;
         this.rokomari_noOfrated = rokomari_noOfrated;
+    }
+
+    public String getComments() {
+        return comments;
     }
 
     public String getTitle() {

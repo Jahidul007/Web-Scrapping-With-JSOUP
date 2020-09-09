@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class RokomariReview {
@@ -28,6 +29,7 @@ public class RokomariReview {
     public static void main(String[] args) {
 
         final List<BookReview> resultList = new ArrayList<BookReview>();
+        Scanner scanner =new Scanner(System.in);
 
         System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
         FirefoxBinary firefoxBinary = new FirefoxBinary();
@@ -36,8 +38,8 @@ public class RokomariReview {
         firefoxOptions.setBinary(firefoxBinary);
         FirefoxDriver driver = new FirefoxDriver(firefoxOptions);
         driver.manage().timeouts().implicitlyWait(45, TimeUnit.SECONDS);
-
-        driver.get("https://www.rokomari.com/book/author/930/%E0%A6%B0%E0%A6%AC%E0%A7%80%E0%A6%A8%E0%A7%8D%E0%A6%A6%E0%A7%8D%E0%A6%B0%E0%A6%A8%E0%A6%BE%E0%A6%A5-%E0%A6%A0%E0%A6%BE%E0%A6%95%E0%A7%81%E0%A6%B0?ref=mm_p3");
+        final String urls = scanner.nextLine();
+        driver.get(urls);
         int i = 0;
         try {
 

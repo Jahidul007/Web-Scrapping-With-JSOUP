@@ -29,7 +29,7 @@ public class RokomariReview {
     public static void main(String[] args) {
 
         final List<BookReview> resultList = new ArrayList<BookReview>();
-        Scanner scanner =new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
         FirefoxBinary firefoxBinary = new FirefoxBinary();
@@ -42,7 +42,6 @@ public class RokomariReview {
         driver.get(urls);
         int i = 0;
         try {
-
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
 
